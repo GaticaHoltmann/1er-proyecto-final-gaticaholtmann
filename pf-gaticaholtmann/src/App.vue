@@ -7,8 +7,10 @@
   </HeaderStore>
   <div class="body-app">
     <ListProducts v-show=!showFormAuth>
-      <CardProduct v-for="(funko, index) in funkos" key="index" :name="funko.name" :image="funko.image" :price="funko.price"
-        :serie="funko.serie"></CardProduct>
+      <CardProduct
+        v-for="(funko, index) in funkos" :key="index" :name="funko.name" :image="funko.image"
+        :price="funko.price" :serie="funko.serie"
+        ></CardProduct>
     </ListProducts>
     <FormAuth v-show="showFormAuth"></FormAuth>
   </div>
@@ -31,9 +33,9 @@ export default {
   components: {
     FormAuth,
     HeaderStore,
+    ListProducts,
     FooterStore,
     CardProduct,
-    ListProducts,
     ButtonLogin,
     ButtonShopping
   },
@@ -119,10 +121,6 @@ export default {
   methods: {
     toggleAuthForm() {
       this.showFormAuth = !this.showFormAuth
-    },
-
-    auth(email, pwd){
-
     }
   }
 }

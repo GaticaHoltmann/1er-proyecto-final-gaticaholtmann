@@ -4,8 +4,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ serie }}</h5>
             <h4 class="card-title">{{ name }}</h4>
-            <h5> ${{ price }}</h5>
-            <!-- <p class="card-text">{{ description }}</p> -->
+            <h5> $ {{ price }}</h5>
         </div>
      </div>
 </template>
