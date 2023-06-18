@@ -8,7 +8,7 @@
   <div class="body-app">
     <ListProducts v-show=showProducts>
       <CardProduct
-        v-for="(funko, index) in funkos" :key="index" :name="funko.name" :image="funko.image"
+        v-for="funko in funkos" :key="funko.id" :name="funko.name" :image="funko.image"
         :price="funko.price" :serie="funko.serie"
         @getProduct="showProduct(funko.id)"
         >
@@ -17,8 +17,10 @@
     </ListProducts>
     <DetailsProduct 
       v-bind="selectedProduct"
-      v-show="showCurrentProduct"
+      v-show="showSelectedProduct"
+      @closeProduct="closeSelectedProduct"
     >
+    <ButtonAddBasket/>
     </DetailsProduct>
     <FormAuth v-show="showFormAuth"
       @registry="toggleRegistry"
@@ -127,8 +129,8 @@ export default {
       showFormAuth: false,
       showRegistry: false,
       showProducts: true,
-      selectedProduct: null,
-      showCurrentProduct: false,
+      selectedProduct: {},
+      showSelectedProduct: false,
       users: [
         {
           name: "David",
@@ -155,10 +157,14 @@ export default {
     },
     showProduct(id){
       this.showProducts = false
-      this.selectedProduct = this.funkos.find(funko => funko.id = id)
-      this.showCurrentProduct = true
-      console.log(this.selectedProduct)
-      console.log(this.funkos)
+      var index = this.funkos.findIndex(funko => funko.id === id)
+      this.selectedProduct = this.funkos[index]
+      this.showSelectedProduct = true
+    },
+    closeSelectedProduct(){
+      this.showSelectedProduct = false
+      this.selectedProduct = {}
+      this.showProducts = true
     }
 
   }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="view-details">
         <div>
             <img :src="image"/>
         </div>
@@ -7,10 +7,10 @@
             <p>{{ serie }}</p>
             <h1>{{ name }}</h1>
             <p>{{ price }}</p>
-            <slot></slot>
             <p>{{ description }}</p>
+            <slot></slot>
+            <button class="btn btn-danger" @click="$emit('closeProduct')">cerrar X</button>
         </div>
-        <button class="btn btn-danger">cerrar X</button>
     </div>
 </template>
 <script>
@@ -25,4 +25,13 @@ export default {
     }
 }
 </script>
-<style></style>
+<style scoped>
+.view-details {
+    display: flex;
+    align-items: center;
+    height: 70vh;
+}
+.view-details div, img{
+    height: 70vh;
+}
+</style>
