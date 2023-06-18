@@ -5,12 +5,20 @@
         <label for="password">Contraseña</label>
         <input type="password" name="" id="password">
         <button class="btn btn-primary">Ingresar</button>
-        <a href="#">Crear cuenta</a>
+        <a href="#" @click="clickRegistry">Crear cuenta</a>
 
         <p>PF-GaticaHoltmann</p>
     </div>
 </template>
-<script></script>
+<script>
+    export default{
+        methods:{
+            clickRegistry(){
+                this.$emit('registry')
+            }
+        }
+    }
+</script>
 <style scoped>
     .form-auth{
         display: flex;

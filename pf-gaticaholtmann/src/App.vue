@@ -6,13 +6,16 @@
     </div>
   </HeaderStore>
   <div class="body-app">
-    <ListProducts v-show=!showFormAuth>
+    <ListProducts v-show=showProducts>
       <CardProduct
         v-for="(funko, index) in funkos" :key="index" :name="funko.name" :image="funko.image"
         :price="funko.price" :serie="funko.serie"
         ></CardProduct>
     </ListProducts>
-    <FormAuth v-show="showFormAuth"></FormAuth>
+    <FormAuth v-show="showFormAuth"
+      @registry="toggleRegistry"
+    ></FormAuth>
+    <FormRegistry v-show="showRegistry"></FormRegistry>
   </div>
   <FooterStore />
 </template>
@@ -24,6 +27,7 @@ import ButtonLogin from './components/ButtonLogin.vue'
 import ButtonShopping from './components/ButtonShopping.vue'
 import HeaderStore from './components/HeaderStore.vue'
 import FormAuth from './components/FormAuth.vue'
+import FormRegistry from './components/FormRegistry.vue'
 import ListProducts from './components/ListProducts.vue'
 import FooterStore from './components/FooterStore.vue'
 import CardProduct from './components/CardProduct.vue'
@@ -32,6 +36,7 @@ export default {
   name: 'App',
   components: {
     FormAuth,
+    FormRegistry,
     HeaderStore,
     ListProducts,
     FooterStore,
@@ -108,6 +113,8 @@ export default {
         }
       ],
       showFormAuth: false,
+      showRegistry: false,
+      showProducts: true,
       users: [
         {
           name: "David",
@@ -121,7 +128,18 @@ export default {
   methods: {
     toggleAuthForm() {
       this.showFormAuth = !this.showFormAuth
+      this.showProducts = false
+      this.showRegistry = false
+    },
+    toggleRegistry(){
+      this.showRegistry = !this.showRegistry
+      this.showFormAuth = false
+      this.showProducts = false
+    },
+    toggleProducts(){
+      this.showProducts = !this.showProducts
     }
+
   }
 }
 </script>
