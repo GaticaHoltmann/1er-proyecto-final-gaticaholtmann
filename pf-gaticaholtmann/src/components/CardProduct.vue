@@ -3,8 +3,9 @@
         <img :src=image class="card-img-top" alt="..." />
         <div class="card-body">
             <h5 class="card-title">{{ serie }}</h5>
-            <h4 class="card-title">{{ name }}</h4>
+            <a href="" @click.prevent="clickProduct" ><h4 class="card-title">{{ name }}</h4></a>
             <h5> $ {{ price }}</h5>
+            <slot></slot>
         </div>
      </div>
 </template>
@@ -18,6 +19,11 @@ export default {
         description: String,
         serie: String,
         price: Number
+    },
+    methods:{
+        clickProduct(){
+            this.$emit('getProduct')
+        }
     }
 }
 
