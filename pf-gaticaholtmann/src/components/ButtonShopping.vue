@@ -1,5 +1,6 @@
 <template>
-    <button class="btn btn-primary btn-shopping"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+    <button class="btn btn-primary btn-shopping"
+    @click="$emit('showBasket')"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
     </button>
 </template>
 <script></script>

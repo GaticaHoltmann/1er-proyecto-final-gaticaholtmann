@@ -2,29 +2,21 @@
   <HeaderStore>
     <div>
       <ButtonLogin @click="toggleAuthForm" />
-      <ButtonShopping />
+      <ButtonShopping @showBasket="toggleBasket" />
     </div>
   </HeaderStore>
   <div class="body-app">
     <ListProducts v-show=showProducts>
-      <CardProduct
-        v-for="funko in funkos" :key="funko.id" :name="funko.name" :image="funko.image"
-        :price="funko.price" :serie="funko.serie"
-        @getProduct="showProduct(funko.id)"
-        >
-        <ButtonAddBasket/>
+      <CardProduct v-for="funko in funkos" :key="funko.id" :name="funko.name" :image="funko.image" :price="funko.price"
+        :serie="funko.serie" @getProduct="showProduct(funko.id)">
+        <ButtonAddBasket @addProductBasket="(counter) => addPrdBskt(funko.id, counter)" />
       </CardProduct>
     </ListProducts>
-    <DetailsProduct 
-      v-bind="selectedProduct"
-      v-show="showSelectedProduct"
-      @closeProduct="closeSelectedProduct"
-    >
-    <ButtonAddBasket/>
+    <DetailsProduct v-bind="selectedProduct" v-show="showSelectedProduct" @closeProduct="closeSelectedProduct">
+      <ButtonAddBasket />
     </DetailsProduct>
-    <FormAuth v-show="showFormAuth"
-      @registry="toggleRegistry"
-    ></FormAuth>
+    <ViewBasket v-show="showBasket" :items="basket"></ViewBasket>
+    <FormAuth v-show="showFormAuth" @registry="toggleRegistry"></FormAuth>
     <FormRegistry v-show="showRegistry"></FormRegistry>
   </div>
   <FooterStore />
@@ -43,6 +35,7 @@ import ListProducts from './components/ListProducts.vue'
 import FooterStore from './components/FooterStore.vue'
 import CardProduct from './components/CardProduct.vue'
 import DetailsProduct from './components/DetailsProduct.vue'
+import ViewBasket from './components/ViewBasket.vue'
 
 export default {
   name: 'App',
@@ -57,7 +50,8 @@ export default {
     ButtonLogin,
     ButtonAddBasket,
     ButtonShopping,
-},
+    ViewBasket
+  },
   data() {
     return {
       funkos: [
@@ -130,7 +124,10 @@ export default {
       showRegistry: false,
       showProducts: true,
       selectedProduct: {},
+      qtySelected: 1,
       showSelectedProduct: false,
+      basket: [],
+      showBasket: false,
       users: [
         {
           name: "David",
@@ -147,24 +144,45 @@ export default {
       this.showProducts = false
       this.showRegistry = false
     },
-    toggleRegistry(){
+    toggleRegistry() {
       this.showRegistry = !this.showRegistry
       this.showFormAuth = false
       this.showProducts = false
     },
-    toggleProducts(){
+    toggleProducts() {
       this.showProducts = !this.showProducts
     },
-    showProduct(id){
+    showProduct(id) {
       this.showProducts = false
       var index = this.funkos.findIndex(funko => funko.id === id)
       this.selectedProduct = this.funkos[index]
       this.showSelectedProduct = true
     },
-    closeSelectedProduct(){
+    closeSelectedProduct() {
       this.showSelectedProduct = false
       this.selectedProduct = {}
       this.showProducts = true
+    },
+    addPrdBskt(id, qty) {
+      var index = this.funkos.findIndex(funko => funko.id === id)
+      var product = this.funkos[index]
+      const newProduct = {
+        qty: qty,
+        name: product.name,
+        price: product.price,
+        id: product.id
+      }
+
+      if (this.basket.some(product => product.id === newProduct.id)) {
+        var aux = this.basket.findIndex(item => item.id = newProduct.id)
+        this.basket[aux].qty = this.basket[aux].qty + newProduct.qty
+      } else {
+        this.basket.push(newProduct)
+      }
+    },
+    toggleBasket() {
+      this.showBasket = !this.showBasket
+      this.showProducts = !this.showProducts
     }
 
   }
